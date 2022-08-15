@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Drivers from './components/Drivers';
-import Seasons from './components/Seasons';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
     <div>
-      <Seasons />
+      <Drivers />
     </div>
   );
 };
