@@ -14,7 +14,7 @@ import axios from 'axios';
 export default axios.create({
   baseURL: 'https://v1.formula-1.api-sports.io/',
   headers: {
-    'x-rapidapi-key': '906149e10195470842d5b6f2d860f89e',
-    'x-rapidapi-host': 'v1.formula-1.api-sports.io',
+    'x-apisports-key': '906149e10195470842d5b6f2d860f89e',
+    // 'Access-Control-Allow-Origin': '*',
   },
 });

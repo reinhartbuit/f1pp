@@ -3,6 +3,9 @@ import DropDownSeasons from './DropDownSeasons';
 import apiSports from '../apis/apiSports';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import { CardGroup, Container } from 'react-bootstrap';
 
 const Drivers = () => {
   const [drivers, setDrivers] = useState([]);
@@ -23,10 +26,10 @@ const Drivers = () => {
 
     const driverList = await Promise.all(
       rankings.map(async (rank) => {
-        const response = apiSports.get('/drivers', {
+        const response = await apiSports.get('/drivers', {
           params: { id: rank.driver.id },
         });
-        return (await response).data.response[0];
+        return response.data.response[0];
       })
     );
     setDrivers(driverList);
@@ -38,23 +41,32 @@ const Drivers = () => {
     );
 
     return (
-      <Card key={driver.id} style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180" />
-        <Card.Body>
-          <Card.Title>{driver.name}</Card.Title>
-          <Card.Text>Number: {driver.number}</Card.Text>
-          <Card.Text>Nationality: {driver.nationality}</Card.Text>
-          <Card.Text>Age: {age}</Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-      </Card>
+      <Col className="d-flex">
+        <Card
+          key={driver.id}
+          style={{ width: '18rem', margin: '10px 2px 2px 10px' }}
+        >
+          <Card.Img variant="top" src={driver.image} />
+          <Card.Body>
+            <Card.Title>{driver.name}</Card.Title>
+            <Card.Text>
+              Number: {driver.number} <br></br>
+              Nationality: {driver.nationality} <br></br>
+              Age: {age}
+            </Card.Text>
+            <Button variant="primary">Go somewhere</Button>
+          </Card.Body>
+        </Card>
+      </Col>
     );
   });
 
   return (
     <div>
       <DropDownSeasons onSeasonSelect={setSelectedSeason}></DropDownSeasons>
-      <div>{renderList}</div>
+      <Container fluid>
+        <Row lg={8}>{renderList}</Row>
+      </Container>
     </div>
   );
 };
