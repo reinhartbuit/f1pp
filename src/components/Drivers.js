@@ -20,7 +20,7 @@ const Drivers = ({ selectedSeason }) => {
   }, [selectedSeason]);
 
   useEffect(() => {
-    fetchDrivers(selectedSeason).catch(console.error);
+    fetchDrivers(selectedSeason);
   }, [rankings]);
   const fetchRankings = async (season) => {
     const response = await apiSports.get('/rankings/drivers', {
@@ -30,15 +30,19 @@ const Drivers = ({ selectedSeason }) => {
   };
 
   const fetchDrivers = async () => {
-    const driverList = await Promise.all(
-      rankings.map(async (rank) => {
+    if (rankings) {
+      const promises = rankings.map(async (rank) => {
         const response = await apiSports.get('/drivers', {
           params: { id: rank.driver.id },
         });
         return response.data.response[0];
-      })
-    );
-    setDrivers(driverList);
+      });
+
+      await Promise.all(promises).then(function (driverList) {
+        console.log(driverList);
+        setDrivers(driverList);
+      });
+    }
   };
 
   const Item = styled(Paper)(({ theme }) => ({
