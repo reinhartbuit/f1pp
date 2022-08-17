@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment from 'moment';
 
-const DropDownSeasons = ({ selectedSeason, onSeasonSelect }) => {
+const DropDownSeasons = ({ onSeasonSelect }) => {
   const [minValue, setMinValue] = useState(new Date());
   const [maxValue, setMaxValue] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
@@ -28,7 +28,6 @@ const DropDownSeasons = ({ selectedSeason, onSeasonSelect }) => {
     setStartDate(date);
     onSeasonSelect(date.getFullYear());
   };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <DatePicker

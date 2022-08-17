@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import DropDownSeasons from './DropDownSeasons';
 import apiSports from '../apis/apiSports';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import { CardGroup, Container } from 'react-bootstrap';
 
-const Drivers = () => {
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { Button, CardActionArea, CardActions } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+
+const Drivers = ({ selectedSeason }) => {
   const [drivers, setDrivers] = useState([]);
   const [rankings, setRankings] = useState([]);
-  const [selectedSeason, setSelectedSeason] = useState(
-    new Date().getFullYear()
-  );
 
   useEffect(() => {
-    fetchData().catch(console.error);
+    fetchRankings(selectedSeason).catch(console.error);
   }, [selectedSeason]);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    fetchDrivers(selectedSeason).catch(console.error);
+  }, [rankings]);
+  const fetchRankings = async (season) => {
     const response = await apiSports.get('/rankings/drivers', {
-      params: { season: selectedSeason },
+      params: { season: season },
     });
     setRankings(response.data.response);
+  };
 
+  const fetchDrivers = async () => {
     const driverList = await Promise.all(
       rankings.map(async (rank) => {
         const response = await apiSports.get('/drivers', {
@@ -35,38 +41,59 @@ const Drivers = () => {
     setDrivers(driverList);
   };
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#1A2027',
+    //theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
   const renderList = drivers.map((driver) => {
     const age = Math.floor(
       (new Date() - new Date(driver.birthdate).getTime()) / 3.15576e10
     );
 
     return (
-      <Col className="d-flex">
-        <Card
-          key={driver.id}
-          style={{ width: '18rem', margin: '10px 2px 2px 10px' }}
-        >
-          <Card.Img variant="top" src={driver.image} />
-          <Card.Body>
-            <Card.Title>{driver.name}</Card.Title>
-            <Card.Text>
-              Number: {driver.number} <br></br>
-              Nationality: {driver.nationality} <br></br>
-              Age: {age}
-            </Card.Text>
-            <Button variant="primary">Go somewhere</Button>
-          </Card.Body>
-        </Card>
-      </Col>
+      <Grid key={driver.id} xs={2}>
+        <Item>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="300"
+                image={driver.image}
+                alt="Driver"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {driver.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Nationality: {driver.nationality} <br />
+                  Rece Number: {driver.number} <br />
+                  Age: {age}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+            </CardActions>
+          </Card>
+        </Item>
+      </Grid>
     );
   });
-
   return (
     <div>
-      <DropDownSeasons onSeasonSelect={setSelectedSeason}></DropDownSeasons>
-      <Container fluid>
-        <Row lg={8}>{renderList}</Row>
-      </Container>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={0} columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}>
+          {renderList}
+        </Grid>
+      </Box>
     </div>
   );
 };
