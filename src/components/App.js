@@ -6,6 +6,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/system';
 import DriverPage from './DriverPage';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Home from './Home';
 
 const darkTheme = createTheme({
   palette: {
@@ -27,7 +29,13 @@ const App = () => {
             pb: 6,
           }}
         >
-          <DriverPage />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />}>
+                <Route path="drivers" element={<DriverPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
         </Box>
       </main>
     </ThemeProvider>

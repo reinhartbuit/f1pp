@@ -32,16 +32,25 @@ const Drivers = ({ selectedSeason }) => {
   const fetchDrivers = async () => {
     if (rankings) {
       const promises = rankings.map(async (rank) => {
-        const response = await apiSports.get('/drivers', {
-          params: { id: rank.driver.id },
-        });
-        return response.data.response[0];
+        try {
+          const response = await apiSports.get('/drivers', {
+            params: { id: rank.driver.id },
+          });
+
+          console.log(response);
+
+          return response.data.response[0];
+        } catch {
+          return;
+        }
       });
 
-      await Promise.all(promises).then(function (driverList) {
-        console.log(driverList);
-        setDrivers(driverList);
-      });
+      await Promise.all(promises)
+        .then(function (driverList) {
+          console.log(driverList);
+          setDrivers(driverList);
+        })
+        .catch(console.log('Fail'));
     }
   };
 
@@ -82,8 +91,12 @@ const Drivers = ({ selectedSeason }) => {
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
-                Share
+              <Button
+                size="small"
+                color="primary"
+                href={`/drivers/${driver.id}`}
+              >
+                More info...
               </Button>
             </CardActions>
           </Card>
