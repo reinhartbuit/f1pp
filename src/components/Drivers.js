@@ -37,8 +37,6 @@ const Drivers = ({ selectedSeason }) => {
             params: { id: rank.driver.id },
           });
 
-          console.log(response);
-
           return response.data.response[0];
         } catch {
           return;
@@ -47,10 +45,11 @@ const Drivers = ({ selectedSeason }) => {
 
       await Promise.all(promises)
         .then(function (driverList) {
-          console.log(driverList);
           setDrivers(driverList);
         })
-        .catch(console.log('Fail'));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

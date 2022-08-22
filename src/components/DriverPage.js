@@ -8,7 +8,7 @@ const DriverPage = () => {
   );
   return (
     <div>
-      <DropDownSeasons onSeasonSelect={setSelectedSeason}></DropDownSeasons>
+      <DropDownSeasons onSeasonSelect={setSelectedSeason}>Test</DropDownSeasons>
       <Drivers selectedSeason={selectedSeason}></Drivers>
     </div>
   );

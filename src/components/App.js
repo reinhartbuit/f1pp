@@ -8,6 +8,7 @@ import { Box } from '@mui/system';
 import DriverPage from './DriverPage';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Home from './Home';
+import DriverDetail from './DriverDetail';
 
 const darkTheme = createTheme({
   palette: {
@@ -31,9 +32,9 @@ const App = () => {
         >
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />}>
-                <Route path="drivers" element={<DriverPage />} />
-              </Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/drivers" element={<DriverPage />}></Route>
+              <Route path="/drivers/:id" element={<DriverDetail />}></Route>
             </Routes>
           </BrowserRouter>
         </Box>
