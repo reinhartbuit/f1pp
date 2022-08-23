@@ -10,18 +10,23 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
+import DriverDetail from './DriverDetail';
 
 const Drivers = ({ selectedSeason }) => {
-  const [drivers, setDrivers] = useState([]);
   const [rankings, setRankings] = useState([]);
+  const [selectedDriverId, setSelectedDriverId] = useState(null);
 
   useEffect(() => {
     fetchRankings(selectedSeason).catch(console.error);
   }, [selectedSeason]);
 
-  useEffect(() => {
-    fetchDrivers(selectedSeason);
-  }, [rankings]);
+  const setDriver = (driver) => {
+    console.log(driver.id);
+    setSelectedDriverId(driver.id);
+  };
+  // useEffect(() => {
+  //   fetchDrivers(selectedSeason);
+  // }, [rankings]);
   const fetchRankings = async (season) => {
     const response = await apiSports.get('/rankings/drivers', {
       params: { season: season },
@@ -29,29 +34,29 @@ const Drivers = ({ selectedSeason }) => {
     setRankings(response.data.response);
   };
 
-  const fetchDrivers = async () => {
-    if (rankings) {
-      const promises = rankings.map(async (rank) => {
-        try {
-          const response = await apiSports.get('/drivers', {
-            params: { id: rank.driver.id },
-          });
+  // const fetchDrivers = async () => {
+  //   if (rankings) {
+  //     const promises = rankings.map(async (rank) => {
+  //       try {
+  //         const response = await apiSports.get('/drivers', {
+  //           params: { id: rank.driver.id },
+  //         });
 
-          return response.data.response[0];
-        } catch {
-          return;
-        }
-      });
+  //         return response.data.response[0];
+  //       } catch {
+  //         return;
+  //       }
+  //     });
 
-      await Promise.all(promises)
-        .then(function (driverList) {
-          setDrivers(driverList);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
+  //     await Promise.all(promises)
+  //       .then(function (driverList) {
+  //         setDrivers(driverList);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // };
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#1A2027',
@@ -62,11 +67,11 @@ const Drivers = ({ selectedSeason }) => {
     color: theme.palette.text.secondary,
   }));
 
-  const renderList = drivers.map((driver) => {
-    const age = Math.floor(
-      (new Date() - new Date(driver.birthdate).getTime()) / 3.15576e10
-    );
-
+  const renderList = rankings.map((ranking) => {
+    const { driver, team } = ranking;
+    // const age = Math.floor(
+    //   (new Date() - new Date(driver.birthdate).getTime()) / 3.15576e10
+    // );
     return (
       <Grid key={driver.id} xs={2}>
         <Item>
@@ -83,9 +88,9 @@ const Drivers = ({ selectedSeason }) => {
                   {driver.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Nationality: {driver.nationality} <br />
-                  Rece Number: {driver.number} <br />
-                  Age: {age}
+                  Team: {team.name} <br />
+                  Position: {ranking.position} <br />
+                  Points: {ranking.points}
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -93,7 +98,7 @@ const Drivers = ({ selectedSeason }) => {
               <Button
                 size="small"
                 color="primary"
-                href={`/drivers/${driver.id}`}
+                onClick={() => setDriver(driver)}
               >
                 More info...
               </Button>
@@ -103,6 +108,7 @@ const Drivers = ({ selectedSeason }) => {
       </Grid>
     );
   });
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -110,6 +116,10 @@ const Drivers = ({ selectedSeason }) => {
           {renderList}
         </Grid>
       </Box>
+      <DriverDetail
+        selectedDriverId={selectedDriverId}
+        setSelectedDriverId={setSelectedDriverId}
+      />
     </div>
   );
 };
