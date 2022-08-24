@@ -21,7 +21,6 @@ const Drivers = ({ selectedSeason }) => {
   }, [selectedSeason]);
 
   const setDriver = (driver) => {
-    console.log(driver.id);
     setSelectedDriverId(driver.id);
   };
   // useEffect(() => {
