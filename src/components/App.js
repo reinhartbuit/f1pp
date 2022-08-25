@@ -1,14 +1,15 @@
 import React from 'react';
+import DriverPage from './Drivers/DriverPage';
+import DriverDetail from './Drivers/DriverDetail';
+import Home from './Home';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/system';
-import DriverPage from './DriverPage';
+
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import Home from './Home';
-import DriverDetail from './DriverDetail';
 
 const darkTheme = createTheme({
   palette: {

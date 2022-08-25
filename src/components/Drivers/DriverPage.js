@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Drivers from './Drivers';
-import DropDownSeasons from './DropDownSeasons';
+import DropDownSeasons from '../DropDownSeasons';
 
 const DriverPage = () => {
   const [selectedSeason, setSelectedSeason] = useState(
