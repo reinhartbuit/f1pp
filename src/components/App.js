@@ -1,6 +1,7 @@
 import React from 'react';
 import DriverPage from './Drivers/DriverPage';
 import DriverDetail from './Drivers/DriverDetail';
+import RacesPage from './Races/RacesPage';
 import Home from './Home';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -36,6 +37,7 @@ const App = () => {
               <Route path="/" element={<Home />}></Route>
               <Route path="/drivers" element={<DriverPage />}></Route>
               <Route path="/drivers/:id" element={<DriverDetail />}></Route>
+              <Route path="/races" element={<RacesPage />}></Route>
             </Routes>
           </BrowserRouter>
         </Box>

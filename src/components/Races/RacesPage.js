@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Drivers from './Drivers';
+
 import DropDownSeasons from '../DropDownSeasons';
 
-const DriverPage = () => {
+const RacesPage = () => {
   const [selectedSeason, setSelectedSeason] = useState(
     new Date().getFullYear()
   );
@@ -10,9 +10,8 @@ const DriverPage = () => {
   return (
     <div>
       <DropDownSeasons onSeasonSelect={setSelectedSeason}></DropDownSeasons>
-      <Drivers selectedSeason={selectedSeason}></Drivers>
     </div>
   );
 };
 
-export default DriverPage;
+export default RacesPage;
