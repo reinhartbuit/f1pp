@@ -1,0 +1,97 @@
+import React, { useEffect, useState } from 'react';
+
+import apiSports from '../../apis/apiSports';
+
+import {
+  Button,
+  CardActionArea,
+  CardActions,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Box,
+  Paper,
+  Grid,
+  styled,
+} from '@mui/material';
+
+const Races = ({ selectedSeason }) => {
+  const [selectedRaceId, setSelectedRaceId] = useState(null);
+  const [races, setRaces] = useState([]);
+
+  useEffect(() => {
+    fetchRaces(selectedSeason).catch(console.error);
+  }, [selectedSeason]);
+
+  const setRaceId = (race) => {
+    setSelectedRaceId(race.id);
+  };
+
+  const fetchRaces = async (season) => {
+    const response = await apiSports.get('/races', {
+      params: { season, type: 'Race' },
+    });
+    setRaces(response.data.response);
+  };
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: '#1A2027',
+    //theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
+  const renderList = races.map((race) => {
+    return (
+      <Grid key={race.id}>
+        <Item>
+          <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="300"
+                image={race.circuit.image}
+                alt="Driver"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {race.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Date: {race.date} <br />
+                  Status: {race.status} <br />
+                  City: {race.competition.location.city}
+                  Country: {race.competition.location.country}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button
+                size="small"
+                color="primary"
+                onClick={() => setRaceId(race)}
+              >
+                More info...
+              </Button>
+            </CardActions>
+          </Card>
+        </Item>
+      </Grid>
+    );
+  });
+
+  return (
+    <div>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={0} columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}>
+          {renderList}
+        </Grid>
+      </Box>
+    </div>
+  );
+};
+
+export default Races;
