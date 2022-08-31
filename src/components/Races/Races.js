@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import RaceDetails from './RaceDetails';
 import apiSports from '../../apis/apiSports';
 
 import {
@@ -25,7 +25,7 @@ const Races = ({ selectedSeason }) => {
   }, [selectedSeason]);
 
   const setRaceId = (race) => {
-    setSelectedRaceId(race.id);
+    setSelectedRaceId(race.circuit.id);
   };
 
   const fetchRaces = async (season) => {
@@ -48,11 +48,11 @@ const Races = ({ selectedSeason }) => {
     return (
       <Grid key={race.id}>
         <Item>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 250 }}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="300"
+                height="150"
                 image={race.circuit.image}
                 alt="Driver"
               />
@@ -63,8 +63,8 @@ const Races = ({ selectedSeason }) => {
                 <Typography variant="body2" color="text.secondary">
                   Date: {race.date} <br />
                   Status: {race.status} <br />
-                  City: {race.competition.location.city}
-                  Country: {race.competition.location.country}
+                  City: {race.competition.location.city} <br />
+                  Country: {race.competition.location.country} <br />
                 </Typography>
               </CardContent>
             </CardActionArea>
@@ -90,6 +90,10 @@ const Races = ({ selectedSeason }) => {
           {renderList}
         </Grid>
       </Box>
+      <RaceDetails
+        selectedRaceId={selectedRaceId}
+        setSelectedRaceId={setSelectedRaceId}
+      />
     </div>
   );
 };

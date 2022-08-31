@@ -23,15 +23,6 @@ import {
   Paper,
 } from '@mui/material';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(3),
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-}));
-
 const BootstrapDialogTitle = (props) => {
   const { children, onClose, ...other } = props;
 
@@ -150,7 +141,7 @@ export default function DriverDetail({
 
   return (
     <div>
-      <BootstrapDialog
+      <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -251,7 +242,7 @@ export default function DriverDetail({
             Close
           </Button>
         </DialogActions>
-      </BootstrapDialog>
+      </Dialog>
     </div>
   );
 }
