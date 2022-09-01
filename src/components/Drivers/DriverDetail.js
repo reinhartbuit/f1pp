@@ -7,7 +7,6 @@ import {
   Box,
   Grid,
   Button,
-  styled,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -145,7 +144,7 @@ export default function DriverDetail({
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        maxWidth="xl"
+        maxWidth={false}
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"

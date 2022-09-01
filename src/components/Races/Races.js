@@ -45,10 +45,19 @@ const Races = ({ selectedSeason }) => {
   }));
 
   const renderList = races.map((race) => {
+    const raceDate = new Date(race.date);
+
     return (
       <Grid key={race.id}>
         <Item>
-          <Card sx={{ maxWidth: 250 }}>
+          <Card
+            sx={{
+              maxWidth: 250,
+              border: 2,
+              borderColor: race.status === 'Completed' ? 'green' : 'red',
+              borderRadius: 2,
+            }}
+          >
             <CardActionArea>
               <CardMedia
                 component="img"
@@ -61,8 +70,8 @@ const Races = ({ selectedSeason }) => {
                   {race.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Date: {race.date} <br />
                   Status: {race.status} <br />
+                  Date: {raceDate.toDateString()} <br />
                   City: {race.competition.location.city} <br />
                   Country: {race.competition.location.country} <br />
                 </Typography>

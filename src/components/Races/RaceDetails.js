@@ -7,7 +7,6 @@ import {
   Box,
   Grid,
   Button,
-  styled,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -38,11 +37,6 @@ const BootstrapDialogTitle = (props) => {
       ) : null}
     </DialogTitle>
   );
-};
-
-BootstrapDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
 };
 
 export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
@@ -81,7 +75,8 @@ export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        maxWidth="xl"
+        maxWidth="sm"
+        fullWidth
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -90,7 +85,7 @@ export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
           {circuitDetails.name}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={1} direction="row" alignItems="left">
+          <Grid container spacing={2} direction="row" alignItems="left">
             <Grid item alignItems="left">
               <Box
                 component="img"
@@ -106,7 +101,7 @@ export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
               />
             </Grid>
             <Grid item xs={12} sm container>
-              <Grid item xs={6}>
+              <Grid item xs={7}>
                 <Typography gutterBottom style={{ display: 'inline-block' }}>
                   First GrandPrix: <br />
                   Laps: <br />
@@ -115,7 +110,7 @@ export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
                   <br />
                 </Typography>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={5}>
                 <Typography
                   gutterBottom
                   style={{ display: 'inline-block' }}
@@ -141,3 +136,8 @@ export default function RaceDetails({ selectedRaceId, setSelectedRaceId }) {
     </div>
   );
 }
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
